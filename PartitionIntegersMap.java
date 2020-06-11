@@ -12,15 +12,15 @@ public class PartitionIntegersMap {
 
     public static Map<Integer, Set<Integer>> remainder(int n, List<Integer> numbersLis) {
         Map<Integer, Set<Integer>> finalMap = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            Set<Integer> partialSet = new HashSet<>();
-            for (Integer numbers : numbersLis) {
-                if (numbers % n == i) {
-                    partialSet.add(numbers);
-                }
-                finalMap.put(i, partialSet);
+        for (Integer number : numbersLis) {
+            int i = number % n;
+            if (!finalMap.containsKey(i)) {
+                finalMap.put(i, new HashSet<>());
             }
+            finalMap.get(i).add(number);
         }
+
+
         return finalMap;
     }
 }
