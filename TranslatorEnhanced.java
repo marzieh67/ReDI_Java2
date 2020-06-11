@@ -1,8 +1,9 @@
 import java.util.*;
 
 public class TranslatorEnhanced {
+    Map<String, List<String>> dictionary = new HashMap<>();
     public static void main(String[] args) {
-        Map<String, ArrayList<String>> dictionary = new HashMap<>();
+        TranslatorEnhanced translator= new TranslatorEnhanced();
         Scanner scanner = new Scanner(System.in);
         char command;
         do {
@@ -14,37 +15,36 @@ public class TranslatorEnhanced {
                     String word = scanner.nextLine();
                     System.out.println("translation");
                     String translation = scanner.nextLine();
-                    addTranslation(word, translation, dictionary);
+                    translator.addTranslation(word, translation);
                     break;
                 case 'T':
                     System.out.println("word");
                     word = scanner.nextLine();
-                    translate(word, dictionary);
+                    translator.translate(word);
                     break;
                 case 'R':
                     System.out.println("word");
                     word = scanner.nextLine();
                     System.out.println("translation");
                     translation = scanner.nextLine();
-                    removeTranslation(word, translation, dictionary);
+                    translator.removeTranslation(word, translation);
                     break;
             }
         } while (command != 'Q');
-        System.out.println(dictionary);
     }
 
-    public static void addTranslation(String word, String translation, Map<String, ArrayList<String>> dictionary) {
+    public void addTranslation(String word, String translation) {
         List<String> translationlist = dictionary.get(word);
         if (translationlist == null) {
             translationlist = new ArrayList<>();
             translationlist.add(translation);
-            dictionary.put(word, (ArrayList<String>) translationlist);
+            dictionary.put(word, translationlist);
         } else {
             if (!translationlist.contains(translation)) translationlist.add(translation);
         }
     }
 
-    public static List<String> translate(String word, Map<String, ArrayList<String>> dictionary) {
+    public List<String> translate(String word) {
 
         if (dictionary.containsKey(word)) {
             List translation = dictionary.get(word);
@@ -56,12 +56,16 @@ public class TranslatorEnhanced {
         }
     }
 
-    public static void removeTranslation(String word, String translation, Map<String, ArrayList<String>> dictionary) {
+    public void removeTranslation(String word, String translation) {
         if (!dictionary.containsKey(word)) {
             System.out.println(word + " does not exist!");
         } else {
             List<String> translationlist = dictionary.get(word);
             translationlist.remove(translation);
+            if (translationlist.isEmpty())
+            {
+                dictionary.remove(word);
+            }
         }
     }
 
